@@ -1,0 +1,11 @@
+<span>Hello {{ userName }}</span>
+
+{% if userRssList%}
+	<ul>
+	{% for rssInfo in userRssList%}
+	<li><a href="{{ rssInfo.url }}">{{ rssInfo.url }}</a></li>
+	{% endfor %}
+	</ul>
+{% else %}
+	<p>You not subscribed to any feeds.</p>
+{% endif %}

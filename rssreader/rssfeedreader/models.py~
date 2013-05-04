@@ -1,0 +1,11 @@
+from django.db import models
+
+# Create your models here.
+
+class users(Models.model):
+	username = models.CharField(max_length=255)
+	password = models.CharField(max_length=255)
+
+class feeds(Models.model):
+	url = models.CharField(max_length=255)
+	userid = models.ManyToManyField(users)
