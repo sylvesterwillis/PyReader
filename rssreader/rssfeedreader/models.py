@@ -7,5 +7,6 @@ class users(models.Model):
 	password = models.CharField(max_length=255)
 
 class feeds(models.Model):
-	url = models.CharField(max_length=255)
-	userid = models.ManyToManyField(users)
+    url = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)
+    userid = models.ManyToManyField(users)
