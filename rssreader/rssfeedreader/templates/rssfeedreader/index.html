@@ -12,12 +12,30 @@
 {% if userName%}
     <span>Hello {{ userName }}</span><a href="{{ request.path }}?logout=true">Logout</a>
 
-    {% if userRssList %}
-        <ul>
-        {% for rssInfo in userRssList%}
-        <li><a href="{{ rssInfo.url }}">{{ rssInfo.name}}</a></li>
+    {% if userRSSList %}
+        <div id="accordion">
+        {% for RSSInfo in userRSSList %}
+            {% for siteTitle, items in RSSInfo.items %}
+                {% ifequal siteTitle "requestError" %}
+                    <h3>{{ siteTitle }}</h3>
+                {% else %}
+                    <h3>{{ siteTitle }}</h3>
+                   
+                    {% for item in items %}
+                        <div class="entry">
+                            <h3><a href="{{ item.link }}">{{ item.title }}</a></h3>
+                            {% if item.comments %}
+                                <h4><a href="{{ item.comments }}">Comments</a></h4>
+                            {% endif %}
+                            {% if item.pubDate %}
+                                <h5>{{ item.pubDate }}</h5><br />
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                {% endifequal %}
+            {% endfor %}
         {% endfor %}
-        </ul>
+        </div>
     {% else %}
         <p>You are not subscribed to any feeds.</p>
     {% endif %}

@@ -15,4 +15,7 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
     url(r'^rssfeedreader/', include('rssfeedreader.urls')),
+    
+    # Allows the rssfeedreader view/template to be the index page.
+    url(r'^$', include('rssfeedreader.urls')),
 )
