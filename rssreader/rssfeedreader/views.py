@@ -2,8 +2,10 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import Context, RequestContext, loader
 from rssfeedreader.models import users, feeds
-from utils import parseRSS
+# Stores various functions needed for views.
+from utils import *
 import hashlib
+from urlparse import urlparse
 
 # View for index page.
 def index(request):
@@ -13,15 +15,7 @@ def index(request):
     userRSSList = []
 
     if 'logout' in request.GET:
-        try:
-            del request.session['username']
-            del request.session['userid']
-            userErrors.append('You have logged out.')
-        except KeyError:
-            userErrors.append('You have already logged out.')
-
-        context = RequestContext(request, {'userErrors':userErrors, 'loggedout':True})
-        return HttpResponseRedirect('/rssfeedreader/')    
+        return logout(request)
         
     #If user has submitted form, check login information or registration information.
     if ('username' in request.POST) and ('password' in request.POST):
@@ -29,28 +23,30 @@ def index(request):
             passwordInput = hashlib.sha224(request.POST['password']).hexdigest()
 
             if request.POST['submit'] == 'Login':
-                userInfo = users.objects.filter(username=userNameInput, password=passwordInput)
-                # Store information in session to make processing easier when the user has logged in, registered, 
-                # or accessed the page with the information within session.
-                if userInfo.count() > 0:
-                    request.session['username'] = userInfo[0].username
-                    request.session['userid'] = userInfo[0].id
-                else:
-                    userErrors.append('Username or password is incorrect.')
+                result = loginUser(userNameInput, passwordInput, request)
+                if result:
+                    userErrors.append(result)
 
             if request.POST['submit'] == 'Register':
-                userInfo = users.objects.filter(username=userNameInput)
-                
-                if userInfo.count() > 0:
-                    userErrors.append('Username already exists.')
-                else:
-                    user = users(username=userNameInput, password=passwordInput)
-                    user.save()
-                    request.session['username'] = user.username
-                    request.session['userid'] = user.id
+                result = registerUser(userNameInput, passwordInput, request)
+                if result:
+                    userErrors.append(result)
 
+    # This block handles adding of feeds.
+    if 'submit' in request.POST and 'feedURL' in request.POST:
+        if not urlparse(request.POST['feedURL']).hostname:
+             userErrors.append('The url entered is invalid.')
 
-    #If user is already logged in, pass along useddr information to be displayed.
+        if not request.POST['siteName']:
+            userErrors.append('No site name is given.')
+
+        if urlparse(request.POST['feedURL']).hostname and request.POST['siteName']:
+            feed = feeds(url=request.POST['feedURL'], name=request.POST['siteName'])
+            feed.save()
+            feed.userid.add(request.session['userid'])
+            feed.save()
+
+    #If user is already logged in, pass along user information to be displayed.
     if 'username' in request.session:
         if 'userid' in request.session:
             userFeeds = feeds.objects.filter(userid=request.session['userid'])
@@ -58,9 +54,8 @@ def index(request):
             for feedInfo in userFeeds:
                 userRSSList.append(parseRSS(feedInfo.url))
 
-            context = RequestContext(request, {"userName":request.session['username'], "userRSSList":userRSSList})
-    else:
-            context = RequestContext(request, {'userErrors':userErrors})
-        
+            context = RequestContext(request, {"userName":request.session['username'], \
+                                               "userRSSList":userRSSList, \
+                                               'userErrors':userErrors}) 
     
     return HttpResponse(template.render(context))

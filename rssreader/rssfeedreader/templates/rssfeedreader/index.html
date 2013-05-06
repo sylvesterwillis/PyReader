@@ -10,7 +10,22 @@
 <body>
 
 {% if userName%}
-    <span>Hello {{ userName }}</span><a href="{{ request.path }}?logout=true">Logout</a>
+    <span>Hello {{ userName }}</span><a href="{{ request.path }}?logout=true">Logout</a><br /><br />
+
+    <span>Would you like to add a RSS feed?</span><br />
+    <form name="addFeed" method="post">{% csrf_token %}
+        <input name="feedURL" type="text" placeholder="URL" />
+        <input name="siteName" type="text" placeholder="Site Name" />
+        <input type="submit" name="submit" value="Add Feed" />
+    </form><br />
+
+    {% if userErrors %}
+        <span style="color:red;">
+            {% for error in userErrors%}
+                {{ error }}<br />
+            {% endfor %}
+        </span><br />
+    {% endif %}
 
     {% if userRSSList %}
         <div id="accordion">
@@ -41,9 +56,9 @@
     {% endif %}
 
 {% else %}
-    <span>Login or register below:</span>
+    <span>Login or register below:</span><br />
 
-    <form method="post">{% csrf_token %}
+    <form name="registerOrLogin" method="post">{% csrf_token %}
         <input name="username" type="text" placeholder="Username" />
         <input name="password" type="password" placeholder="Password" />
         <input type="submit" name="submit" value="Login" />
@@ -51,11 +66,11 @@
     </form>
 
     {% if userErrors %}
-    <span style="color:red;">
-    {% for error in userErrors%}
-        {{ error }}<br />
-    {% endfor %}
-    </span>
+        <span style="color:red;">
+            {% for error in userErrors%}
+                {{ error }}<br />
+            {% endfor %}
+        </span>
     {% endif %}
 {% endif %}
 </body>
