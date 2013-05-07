@@ -57,5 +57,7 @@ def index(request):
             context = RequestContext(request, {"userName":request.session['username'], \
                                                "userRSSList":userRSSList, \
                                                'userErrors':userErrors}) 
-    
+    else:
+        context = RequestContext(request, {'userErrors':userErrors})   
+ 
     return HttpResponse(template.render(context))

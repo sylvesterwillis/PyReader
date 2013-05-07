@@ -2,10 +2,9 @@
 import requests
 from bs4 import BeautifulSoup
 import HTMLParser
-from django.http import HttpResponse, HttpResponseRedirect
-from django.template import Context, RequestContext, loader
+from django.http import HttpResponseRedirect
+from django.template import RequestContext, loader
 from rssfeedreader.models import users, feeds
-import hashlib
 from urlparse import urlparse
 
 class RSSItem:
@@ -77,11 +76,8 @@ def logout(request):
     try:
         del request.session['username']
         del request.session['userid']
-        userErrors.append('You have logged out.')
     except KeyError:
-        userErrors.append('You have already logged out.')
-
-    #context = RequestContext(request, {'userErrors':userErrors, 'loggedout':True})
+        pass
     return HttpResponseRedirect('/rssfeedreader/')
 
 def loginUser(userNameInput, passwordInput, request):
