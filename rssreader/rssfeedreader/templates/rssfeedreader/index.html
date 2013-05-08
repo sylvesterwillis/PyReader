@@ -30,12 +30,19 @@
     {% if userRSSList %}
         <div id="accordion">
         {% for RSSInfo in userRSSList %}
-            {% for siteTitle, items in RSSInfo.items %}
+            <h3>{{ RSSInfo.0 }}</h3>
+            
+            <form name="editFeed" method="post">{% csrf_token %}
+                <input name="feedURL" type="text" placeholder="URL" value="{{ RSSInfo.1 }}"/>
+                <input name="siteName" type="text" placeholder="Site Name" value="{{ RSSInfo.0 }}"/>
+                <input type='hidden' value='{{ RSSInfo.2 }}' />
+                <input type="submit" name="submit" value="Edit Feed" />
+            </form>
+
+            {% for siteTitle, items in RSSInfo.3.items %}
                 {% ifequal siteTitle "requestError" %}
-                    <h3>{{ siteTitle }}</h3>
+                    <span style="color:red;">There was an error with the request.</span><br />
                 {% else %}
-                    <h3>{{ siteTitle }}</h3>
-                   
                     {% for item in items %}
                         <div class="entry">
                             <h3><a href="{{ item.link }}">{{ item.title }}</a></h3>

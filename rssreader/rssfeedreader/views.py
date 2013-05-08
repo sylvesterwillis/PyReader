@@ -52,7 +52,7 @@ def index(request):
             userFeeds = feeds.objects.filter(userid=request.session['userid'])
             
             for feedInfo in userFeeds:
-                userRSSList.append(parseRSS(feedInfo.url))
+                userRSSList.append([feedInfo.name, feedInfo.url, feedInfo.id, parseRSS(feedInfo.url)])
 
             context = RequestContext(request, {"userName":request.session['username'], \
                                                "userRSSList":userRSSList, \
