@@ -138,3 +138,9 @@ def editFeed(request):
         feed.name = request.POST['siteName']
         feed.save()
         return ''
+
+def removeFeed(request):
+    feed = feeds.objects.get(id=request.POST['feedId'])
+    feedName = feed.name
+    feed.delete()
+    return 'The RSS feed for ' + feedName + ' has been removed.'

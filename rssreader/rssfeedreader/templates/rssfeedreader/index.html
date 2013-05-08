@@ -16,8 +16,7 @@
     <form name="addFeed" method="post">{% csrf_token %}
         <input name="feedURL" type="text" placeholder="URL" />
         <input name="siteName" type="text" placeholder="Site Name" />
-        <input type='hidden' name='addFeed'/>
-        <input type="submit" name="submit" value="Add Feed" />
+        <input type="submit" name="addFeed" value="Add Feed" />
     </form><br />
 
     {% if userErrors %}
@@ -32,14 +31,25 @@
         <div id="accordion">
         {% for RSSInfo in userRSSList %}
             <h3>{{ RSSInfo.0 }}</h3>
-            
-            <form name="editFeed" method="post">{% csrf_token %}
-                <input name="feedURL" type="text" placeholder="URL" value="{{ RSSInfo.1 }}"/>
-                <input name="siteName" type="text" placeholder="Site Name" value="{{ RSSInfo.0 }}"/>
-                <input type='hidden' name='feedId' value='{{ RSSInfo.2 }}' />
-                <input type='hidden' name='editFeed' />
-                <input type="submit" name="submit" value="Edit Feed" />
-            </form>
+           
+            <table border="0">
+                <tr>
+                    <td> 
+                        <form name="editFeed" method="post">{% csrf_token %}
+                            <input name="feedURL" type="text" placeholder="URL" value="{{ RSSInfo.1 }}"/>
+                            <input name="siteName" type="text" placeholder="Site Name" value="{{ RSSInfo.0 }}"/>
+                            <input type='hidden' name='feedId' value='{{ RSSInfo.2 }}' />
+                            <input type="submit" name="editFeed" value="Edit Feed" />
+                        </form>
+                    </td>
+                    <td>
+                        <form method="post">{% csrf_token %}
+                            <input type='hidden' name='feedId' value='{{ RSSInfo.2 }}' />
+                            <input type="submit" name="removeFeed" value="Remove Feed" />
+                        </form>
+                    </td>
+                </tr>
+            </table>
 
             {% for siteTitle, items in RSSInfo.3.items %}
                 {% ifequal siteTitle "requestError" %}

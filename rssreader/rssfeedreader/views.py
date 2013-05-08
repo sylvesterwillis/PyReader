@@ -32,11 +32,13 @@ def index(request):
                 if result:
                     userErrors.append(result)
 
-    # This block handles adding of feeds.
-    if 'submit' in request.POST and 'addFeed' in request.POST:
+    # This block handles adding, editing, and removal of feeds.
+    if 'addFeed' in request.POST:
         userErrors.append(addFeed(request))
-    elif 'submit' in request.POST and 'editFeed' in request.POST:
+    elif 'editFeed' in request.POST:
         userErrors.append(editFeed(request))
+    elif 'removeFeed' in request.POST:
+        userErrors.append(removeFeed(request))
 
     #If user is already logged in, pass along user information to be displayed.
     if 'username' in request.session:
