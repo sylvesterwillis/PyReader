@@ -33,18 +33,10 @@ def index(request):
                     userErrors.append(result)
 
     # This block handles adding of feeds.
-    if 'submit' in request.POST and 'feedURL' in request.POST:
-        if not urlparse(request.POST['feedURL']).hostname:
-             userErrors.append('The url entered is invalid.')
-
-        if not request.POST['siteName']:
-            userErrors.append('No site name is given.')
-
-        if urlparse(request.POST['feedURL']).hostname and request.POST['siteName']:
-            feed = feeds(url=request.POST['feedURL'], name=request.POST['siteName'])
-            feed.save()
-            feed.userid.add(request.session['userid'])
-            feed.save()
+    if 'submit' in request.POST and 'addFeed' in request.POST:
+        userErrors.append(addFeed(request))
+    elif 'submit' in request.POST and 'editFeed' in request.POST:
+        userErrors.append(editFeed(request))
 
     #If user is already logged in, pass along user information to be displayed.
     if 'username' in request.session:

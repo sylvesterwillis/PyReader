@@ -102,3 +102,39 @@ def registerUser(userNameInput, passwordInput, request):
         request.session['username'] = user.username
         request.session['userid'] = user.id
         return ''
+
+def addFeed(request):
+    if not urlparse(request.POST['feedURL']).hostname:
+        return 'The url entered is invalid.'
+
+    if not request.POST['siteName']:
+        return 'No site name is given.'
+
+    if urlparse(request.POST['feedURL']).hostname and request.POST['siteName']:
+        #Check if feeds already exists for this user.
+        feedResults = feeds.objects.filter(name=request.POST['siteName'], \
+                                           url=request.POST['feedURL'],
+                                           userid=request.session['userid'])
+
+        if len(feedResults) > 0:
+            return 'This feed already exists.'
+
+        feed = feeds(url=request.POST['feedURL'], name=request.POST['siteName'])
+        feed.save()
+        feed.userid.add(request.session['userid'])
+        feed.save()
+        return ''
+
+def editFeed(request):
+    if not urlparse(request.POST['feedURL']).hostname:
+        return 'The url entered is invalid.'
+
+    if not request.POST['siteName']:
+        return 'No site name is given.'
+
+    if urlparse(request.POST['feedURL']).hostname and request.POST['siteName']:
+        feed = feeds.objects.filter(id=request.POST['feedId'])[0]
+        feed.url = request.POST['feedURL']
+        feed.name = request.POST['siteName']
+        feed.save()
+        return ''

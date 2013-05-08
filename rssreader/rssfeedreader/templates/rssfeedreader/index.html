@@ -16,6 +16,7 @@
     <form name="addFeed" method="post">{% csrf_token %}
         <input name="feedURL" type="text" placeholder="URL" />
         <input name="siteName" type="text" placeholder="Site Name" />
+        <input type='hidden' name='addFeed'/>
         <input type="submit" name="submit" value="Add Feed" />
     </form><br />
 
@@ -35,7 +36,8 @@
             <form name="editFeed" method="post">{% csrf_token %}
                 <input name="feedURL" type="text" placeholder="URL" value="{{ RSSInfo.1 }}"/>
                 <input name="siteName" type="text" placeholder="Site Name" value="{{ RSSInfo.0 }}"/>
-                <input type='hidden' value='{{ RSSInfo.2 }}' />
+                <input type='hidden' name='feedId' value='{{ RSSInfo.2 }}' />
+                <input type='hidden' name='editFeed' />
                 <input type="submit" name="submit" value="Edit Feed" />
             </form>
 
