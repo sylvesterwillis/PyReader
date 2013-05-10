@@ -1,16 +1,26 @@
 <!DOCTYPE html>
 <html>
     <head>
+        {% load staticfiles %}
         <link rel="shortcut icon" href="favicon.ico" />
-        <link rel="stylesheet" type="text/css" href="styles/mainlayout.css">
-        <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-        <script type="text/javascript" src="scripts/layout.js"></script>
+        <link rel="stylesheet" type="text/css" href="{% static "rssreader/css/mainlayout.css" %}">
+        <link rel="stylesheet" href="{% static  "rssreader/css/custom-theme/jquery-ui-1.10.3.custom.min.css" %}" />
+        <script src="{% static "rssreader/js/jquery-1.9.1.min.js" %}"></script>
+        <script src="{% static "rssreader/js/jquery-ui-1.10.3.custom.min.js" %}"></script>
+        <script type="text/javascript" src="{% static "rssreader/js/layout.js" %}"></script>
+        <script>
+            $(function() {
+                $( "#accordion" ).accordion({
+                    collapsible: true
+                });
+            });
+        </script>
         <!-- Loading Bootstrap -->
-        <link href="css/bootstrap.css" rel="stylesheet">
+        <link href="{% static "rssreader/css/bootstrap.css" %}" rel="stylesheet">
 
         <!-- Loading Flat UI -->
-        <link href="css/flat-ui.css" rel="stylesheet">
-        <link rel="shortcut icon" href="images/favicon.ico">
+        <link href="{% static "rssreader/css/flat-ui.css" %}" rel="stylesheet">
+        <link rel="shortcut icon" href="{% static "images/favicon.ico" %}">
 
         <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
         <!--[if lt IE 9]>
@@ -27,7 +37,7 @@
     <form name="addFeed" method="post">{% csrf_token %}
         <input name="feedURL" type="text" placeholder="URL" />
         <input name="siteName" type="text" placeholder="Site Name" />
-        <input type="submit" name="addFeed" value="Add Feed" />
+        <input class="btn btn-large btn-block" type="submit" name="addFeed" value="Add Feed" />
     </form><br />
 
     {% if userErrors %}
@@ -41,7 +51,7 @@
     {% if userRSSList %}
         <div id="accordion">
         {% for RSSInfo in userRSSList %}
-            <h3>{{ RSSInfo.0 }}</h3>
+            <h3>{{ RSSInfo.0 }}
            
             <table border="0">
                 <tr>
@@ -50,18 +60,19 @@
                             <input name="feedURL" type="text" placeholder="URL" value="{{ RSSInfo.1 }}"/>
                             <input name="siteName" type="text" placeholder="Site Name" value="{{ RSSInfo.0 }}"/>
                             <input type='hidden' name='feedId' value='{{ RSSInfo.2 }}' />
-                            <input type="submit" name="editFeed" value="Edit Feed" />
+                            <input class="btn btn-large btn-block" type="submit" name="editFeed" value="Edit Feed" />
                         </form>
                     </td>
                     <td>
                         <form method="post">{% csrf_token %}
                             <input type='hidden' name='feedId' value='{{ RSSInfo.2 }}' />
-                            <input type="submit" name="removeFeed" value="Remove Feed" />
+                            <input class="btn btn-large btn-block" type="submit" name="removeFeed" value="Remove Feed" />
                         </form>
                     </td>
                 </tr>
-            </table>
+            </table></h3>
 
+            <div>
             {% for siteTitle, items in RSSInfo.3.items %}
                 {% ifequal siteTitle "requestError" %}
                     <span style="color:red;">There was an error with the request.</span><br />
@@ -79,8 +90,9 @@
                     {% endfor %}
                 {% endifequal %}
             {% endfor %}
+            </div><!-- Accordion content wrapper. -->
         {% endfor %}
-        </div>
+        </div><!-- Accordion wrapper. -->
     {% else %}
         <p>You are not subscribed to any feeds.</p>
     {% endif %}
@@ -91,8 +103,8 @@
     <form name="registerOrLogin" method="post">{% csrf_token %}
         <input name="username" type="text" placeholder="Username" />
         <input name="password" type="password" placeholder="Password" />
-        <input type="submit" name="submit" value="Login" />
-        <input type="submit" name="submit" value="Register" />
+        <input class="btn btn-large btn-block" type="submit" name="submit" value="Login" />
+        <input class="btn btn-large btn-block" type="submit" name="submit" value="Register" />
     </form>
 
     {% if userErrors %}
