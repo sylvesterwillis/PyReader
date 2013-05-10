@@ -7,5 +7,5 @@ Current Goal
 ============
 1. Learn more about Python/Django and create prototype of the site.
     * ~~Implement user login, register, and logout.~~
-    * Implement addition and removal of rss feeds by user.
+    * ~~Implement addition and removal of rss feeds by user.~~
     * ~~Implement displaying of feeds by user.~~
