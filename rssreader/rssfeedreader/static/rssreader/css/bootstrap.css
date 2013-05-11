@@ -3294,7 +3294,7 @@ button.close {
 input[type="submit"].btn-block,
 input[type="reset"].btn-block,
 input[type="button"].btn-block {
-  width: 100%;
+  /*width: 100%;*/
 }
 
 .btn-primary.active,
