@@ -56,10 +56,12 @@
     {% if userRSSList %}
         <div id="accordion">
         {% for RSSInfo in userRSSList %}
-            <h3>{{ RSSInfo.0 }}
-           
-            <table border="0">
-                <tr>
+            <h3>{{ RSSInfo.0 }}</h3>
+            
+            <div>
+                <div id="editRemoveFeedForm">
+                <table border="0">
+                    <tr>
                         <form name="editFeed" method="post">{% csrf_token %}
                             <td><input name="feedURL" type="text" placeholder="URL" value="{{ RSSInfo.1 }}"/></td>
                             <td><input name="siteName" type="text" placeholder="Site Name" value="{{ RSSInfo.0 }}"/></td>
@@ -71,10 +73,10 @@
                             <input type='hidden' name='feedId' value='{{ RSSInfo.2 }}' />
                             <td><input class="btn btn-large btn-block" type="submit" name="removeFeed" value="Remove Feed" /></td>
                         </form>
-                </tr>
-            </table></h3>
-
-            <div>
+                        </tr>
+                    </table>
+                </div>
+            
             {% for siteTitle, items in RSSInfo.3.items %}
                 {% ifequal siteTitle "requestError" %}
                     <span style="color:red;">There was an error with the request.</span><br />
