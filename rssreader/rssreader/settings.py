@@ -164,6 +164,3 @@ TEMPLATE_CONTEXT_PROCESSORS = TCP + (
     'django.core.context_processors.request',
     'django.core.context_processors.static',
 )
-
-import dj_database_url
-DATABASES['default'] =  dj_database_url.config()

@@ -3,7 +3,6 @@
     <head>
         {% load staticfiles %}
         <link rel="shortcut icon" href="favicon.ico" />
-        <link rel="stylesheet" type="text/css" href="{% static "rssreader/css/mainlayout.css" %}">
         <link rel="stylesheet" href="{% static  "rssreader/css/custom-theme/jquery-ui-1.10.3.custom.min.css" %}" />
         <script src="{% static "rssreader/js/jquery-1.9.1.min.js" %}"></script>
         <script src="{% static "rssreader/js/jquery-ui-1.10.3.custom.min.js" %}"></script>
@@ -23,6 +22,22 @@
         <link href="{% static "rssreader/css/flat-ui.css" %}" rel="stylesheet">
         <link rel="shortcut icon" href="{% static "images/favicon.ico" %}">
 
+        <link rel="stylesheet" type="text/css" href="{% static "rssreader/css/mainlayout.css" %}">
+        <style>
+            body{
+                text-align: center;
+            }
+
+            #infoBlock{
+                display: inline-block;
+                text-align: center;
+            }
+
+            #editRemoveFeedForm {
+                display: inline-block;
+            }
+
+        </style>
         <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
         <!--[if lt IE 9]>
             <script src="js/html5shiv.js"></script>
@@ -31,10 +46,13 @@
     </head>
 <body>
 
+	
 {% if userName%}
-    <span>Hello {{ userName }}</span><a href="{{ request.path }}?logout=true">Logout</a><br /><br />
+<div id="infoBlock">
+    <span id="userWelcome">Hello {{ userName }}</span><a href="{{ request.path }}?logout=true">Logout</a><br /><br />
 
     <span>Would you like to add a RSS feed?</span><br />
+<div id="formWrapper">
     <form name="addFeed" method="post">{% csrf_token %}
         <table border="0px">
             <tr>
@@ -44,6 +62,7 @@
             </tr>
         </table>
     </form><br />
+</div>
 
     {% if userErrors %}
         <span style="color:red;">
@@ -52,6 +71,7 @@
             {% endfor %}
         </span>
     {% endif %}
+</div>
 
     {% if userRSSList %}
         <div id="accordion">
@@ -102,8 +122,10 @@
     {% endif %}
 
 {% else %}
+<div id="infoBlock">
     <span>Login or register below:</span><br />
 
+<div id="formWrapper">
     <form name="registerOrLogin" method="post">{% csrf_token %}
         <table border="0px">
             <tr>
@@ -114,6 +136,7 @@
             </tr>
         </table>
     </form>
+</div>
 
     {% if userErrors %}
         <span style="color:red;">
@@ -122,6 +145,7 @@
             {% endfor %}
         </span>
     {% endif %}
+</div>
 {% endif %}
 </body>
 </html>
