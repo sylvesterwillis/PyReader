@@ -9,3 +9,9 @@ Tasks Completed
     * Implemented user login, register, and logout.
     * Implemented addition and removal of rss feeds by user.
     * Implemented displaying of feeds by user.
+
+Instructions for deployment on ec2
+==================================
+1. Go to /etc/apache2/sites-available and create file for PyReader, then setup VirtualHost using a Django with mod_wsgi tutorial.
+    * If there is already a file for PyReader, then check to see if the servername matches the ec2 instance public DNS.
+2. Restart Apache2 using "sudo service apache2 restart".
