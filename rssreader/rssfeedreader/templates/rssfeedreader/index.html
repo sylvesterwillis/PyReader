@@ -23,9 +23,18 @@
         <link rel="shortcut icon" href="{% static "images/favicon.ico" %}">
 
         <link rel="stylesheet" type="text/css" href="{% static "rssreader/css/mainlayout.css" %}">
+        <link href='http://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
+
         <style>
             body{
                 text-align: center;
+            }
+        
+            #headerDiv{
+                background-color:#445060;
+                color:#ECF0F1;
+                padding-bottom: 1em;
+                padding-top: 1em;
             }
 
             #infoBlock{
@@ -37,15 +46,23 @@
                 display: inline-block;
             }
 
+            #headerContent{
+                font-family: 'Roboto Slab', serif;
+            }
+
         </style>
         <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
         <!--[if lt IE 9]>
             <script src="js/html5shiv.js"></script>
         <![endif]-->
-        <title>RSS Reader</title>
+        <title>PyReader</title>
     </head>
 <body>
 
+
+<div id="headerDiv">
+    <span id="headerContent"><h1>PyReader</h1></span>
+</div>
 	
 {% if userName%}
 <div id="infoBlock">
