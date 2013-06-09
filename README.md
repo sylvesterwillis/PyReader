@@ -3,6 +3,10 @@ PyReader
 
 Saw a mention of Google's RSS reader shutting down, and figured that I would create a RSS reader as a project.
 
+Location
+========
+Located at http://ec2-107-22-172-241.compute-1.amazonaws.com/
+
 Tasks Completed
 ===============
 1. Learn more about Python/Django and create prototype of the site.
