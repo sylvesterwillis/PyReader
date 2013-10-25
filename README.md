@@ -5,7 +5,6 @@ Saw a mention of Google's RSS reader shutting down, and figured that I would cre
 
 Location
 ========
-Located at http://ec2-107-22-172-241.compute-1.amazonaws.com/
 
 Tasks Completed
 ===============
@@ -16,6 +15,6 @@ Tasks Completed
 
 Instructions for deployment on ec2
 ==================================
-1. Go to /etc/apache2/sites-available and create file for PyReader, then setup VirtualHost using a Django with mod_wsgi tutorial.
-    * If there is already a file for PyReader, then check to see if the servername matches the ec2 instance public DNS.
-2. Restart Apache2 using "sudo service apache2 restart".
+http://thecodeship.com/deployment/deploy-django-apache-virtualenv-and-mod_wsgi/
+or 
+https://library.linode.com/frameworks/django-apache-mod-wsgi/ubuntu-10.04-lucid
